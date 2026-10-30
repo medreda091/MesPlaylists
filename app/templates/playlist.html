@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ playlist.name }}</h2>
+<p>{{ playlist.description }}</p>
+
+<table>
+<tr><th>Titre</th><th>Artiste</th><th>Genre</th><th>Durée</th><th>Écoutes</th><th>Actions</th></tr>
+{% for track in playlist.tracks %}
+<tr>
+  <td>{{ track.title }} {% if track.favorite %}⭐{% endif %}</td>
+  <td>{{ track.artist }}</td>
+  <td>{{ track.genre }}</td>
+  <td>{{ track.duration_display }}</td>
+  <td>{{ track.play_count }}</td>
+  <td>
+    <form method="post" action="{{ url_for('main.play_track', track_id=track.id) }}"><button>▶ Écouté</button></form>
+    <form method="post" action="{{ url_for('main.favorite_track', track_id=track.id) }}"><button>⭐ Favori</button></form>
+    <form method="post" action="{{ url_for('main.delete_track', track_id=track.id) }}"><button>Supprimer</button></form>
+  </td>
+</tr>
+{% else %}
+<tr><td colspan="6">Aucun titre dans cette playlist.</td></tr>
+{% endfor %}
+</table>
+
+<h3>Ajouter un titre</h3>
+<form method="post" action="{{ url_for('main.add_track', playlist_id=playlist.id) }}">
+  <input name="title" placeholder="Titre" required>
+  <input name="artist" placeholder="Artiste" required>
+  <input name="genre" placeholder="Genre">
+  <input name="duration_seconds" type="number" min="1" placeholder="Durée (secondes)" required>
+  <input name="year" type="number" placeholder="Année">
+  <button type="submit">Ajouter</button>
+</form>
+
+<form method="post" action="{{ url_for('main.delete_playlist', playlist_id=playlist.id) }}">
+  <button type="submit">Supprimer la playlist</button>
+</form>
+{% endblock %}

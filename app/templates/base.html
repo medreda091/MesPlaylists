@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>MesPlaylists</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>🎵 MesPlaylists</h1>
+  <nav>
+    <a href="{{ url_for('main.index') }}">Playlists</a>
+    <a href="{{ url_for('main.stats') }}">Statistiques</a>
+    <a href="{{ url_for('main.import_csv') }}">Importer un CSV</a>
+  </nav>
+</header>
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>

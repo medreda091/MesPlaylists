@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Importer des titres (CSV)</h2>
+<p>Colonnes attendues : <code>titre, artiste, genre, duree_secondes, annee</code>.
+Les lignes invalides ou en double sont rejetées et listées dans le rapport,
+elles n'empêchent pas l'import des autres lignes.</p>
+<form method="post" enctype="multipart/form-data">
+  <select name="playlist_id" required>
+  {% for playlist in playlists %}
+    <option value="{{ playlist.id }}">{{ playlist.name }}</option>
+  {% endfor %}
+  </select>
+  <input type="file" name="fichier" accept=".csv" required>
+  <button type="submit">Importer</button>
+</form>
+
+{% if result %}
+<h3>Rapport d'import</h3>
+<p>{{ result.added }} titre(s) ajouté(s), {{ result.rejected|length }} rejet(s).</p>
+<ul>
+{% for item in result.rejected %}
+  <li>Ligne {{ item.ligne }} — {{ item.titre }} : {{ item.raison }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

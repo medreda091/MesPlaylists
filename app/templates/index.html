@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="kpis">
+  <div><strong>{{ kpis.total_playlists }}</strong> playlists</div>
+  <div><strong>{{ kpis.total_tracks }}</strong> titres</div>
+  <div><strong>{{ kpis.total_plays }}</strong> écoutes</div>
+  <div><strong>{{ kpis.total_favorites }}</strong> favoris</div>
+  <div><strong>{{ kpis.total_duration_minutes }}</strong> minutes de musique</div>
+</section>
+
+<h2>Mes playlists</h2>
+<ul>
+{% for playlist in playlists %}
+  <li><a href="{{ url_for('main.playlist_detail', playlist_id=playlist.id) }}">{{ playlist.name }}</a>
+  ({{ playlist.tracks|length }} titre(s)) — {{ playlist.description }}</li>
+{% else %}
+  <li>Aucune playlist pour le moment. Créez-en une ci-dessous, ou lancez <code>python seed.py</code> pour des exemples.</li>
+{% endfor %}
+</ul>
+
+<h2>Créer une playlist</h2>
+<form method="post" action="{{ url_for('main.create_playlist') }}">
+  <input name="name" placeholder="Nom de la playlist" required>
+  <input name="description" placeholder="Description (facultatif)">
+  <button type="submit">Créer</button>
+</form>
+{% endblock %}

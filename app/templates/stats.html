@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Tableau de bord de mes écoutes</h2>
+
+<section class="kpis">
+  <div><strong>{{ kpis.total_playlists }}</strong> playlists</div>
+  <div><strong>{{ kpis.total_tracks }}</strong> titres</div>
+  <div><strong>{{ kpis.total_plays }}</strong> écoutes</div>
+  <div><strong>{{ kpis.total_favorites }}</strong> favoris</div>
+  <div><strong>{{ kpis.total_duration_minutes }}</strong> minutes de musique</div>
+</section>
+
+<h3>Ce que les chiffres montrent</h3>
+<ul>
+{% for line in interpretation %}
+  <li>{{ line }}</li>
+{% endfor %}
+</ul>
+
+<h3>Écoutes par genre</h3>
+{{ chart_genres|safe }}
+
+<h3>Écoutes par playlist</h3>
+{{ chart_playlists|safe }}
+
+<h3>Titres les plus écoutés</h3>
+<ol>
+{% for track in kpis.top_tracks %}
+  <li>{{ track.title }} — {{ track.artist }} ({{ track.play_count }} écoute(s))</li>
+{% else %}
+  <li>Aucune écoute enregistrée.</li>
+{% endfor %}
+</ol>
+{% endblock %}
